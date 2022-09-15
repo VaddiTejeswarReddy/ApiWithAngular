@@ -1,4 +1,5 @@
-using DotNetCoreApiUsingAngular.Data;
+using FilterDemo.Data;
+using FilterDemo.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetCoreApiUsingAngular
+namespace FilterDemo
 {
     public class Startup
     {
@@ -27,10 +28,11 @@ namespace DotNetCoreApiUsingAngular
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Angular;"));
-            services.AddMvc().AddXmlSerializerFormatters();
-            services.AddCors();
+            // services.AddControllers();
+            services.AddControllers(options =>
+            options.Filters.Add(new Filter())
+            );
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(@"Data Source=INHYNTVADDI01\SQLEXPRESS;Initial Catalog=Youtube;User ID=sa;Password=Teja@296"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,8 +46,6 @@ namespace DotNetCoreApiUsingAngular
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors(policyName => policyName.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
             app.UseAuthorization();
 
