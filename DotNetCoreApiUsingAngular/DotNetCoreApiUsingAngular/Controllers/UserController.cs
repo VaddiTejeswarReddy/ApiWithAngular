@@ -1,4 +1,5 @@
-﻿using DotNetCoreApiUsingAngular.Data;
+﻿using DotNetCoreApiUsingAngular.BaseApiController;
+using DotNetCoreApiUsingAngular.Data;
 using DotNetCoreApiUsingAngular.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,7 @@ using System.Threading.Tasks;
 
 namespace DotNetCoreApiUsingAngular.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ApiBaseController
     {
         private readonly DataContext _dataContext;
         public UserController(DataContext dataContext)

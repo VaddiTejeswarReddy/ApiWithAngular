@@ -1,0 +1,25 @@
+<div>
+  <ul>
+    <li>
+      <a href="">
+      Message
+    </a>
+  </li>
+  <li>
+    <a>
+   Photo
+  </a>
+</li><li>
+  <a>
+ Logout
+</a>
+</li>
+  </ul>
+</div>
+<form #loginForm="ngForm" (ngSubmit)="Login()" autocomplete="off">
+  <input name="UserName" type="text" placeholder="UserName" 
+  [(ngModel)]="Model.UserName" /><br />
+  <input name="Password" type="password" placeholder="Password" 
+  [(ngModel)]="Model.Password" /><br />
+  <button type="submit">Submit</button>
+</form>

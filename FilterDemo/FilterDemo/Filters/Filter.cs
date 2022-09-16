@@ -65,6 +65,7 @@
 
 // 
 using FilterDemo.Data;
+using FilterDemo.Interface;
 using FilterDemo.Modules;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,11 @@ namespace FilterDemo.Filters
 {
     public class Filter : IAuthorizationFilter,IResourceFilter,IActionFilter
     {
+        //private readonly IUserDetails _userDetails;
+        //public Filter(IUserDetails userDetails)
+        //{
+        //        this._userDetails = userDetails;
+        //}
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             //var name = Testing(context.HttpContext);
@@ -95,7 +101,7 @@ namespace FilterDemo.Filters
         {
             Console.WriteLine("This is ResourceFilter before Executing....");
         }
-
+       
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
             Console.WriteLine("This is ResourceFilter after Executing....");
@@ -104,12 +110,21 @@ namespace FilterDemo.Filters
         public void OnActionExecuting(ActionExecutingContext context)
         {
             Console.WriteLine("This is ActionFilter before Executing....");
+            Interface.Details Details = new Interface.Details();
+            var name = Details.GetUserDetails(context.HttpContext);
         }
+
+        //public string UserDetails(HttpContext httpContext)
+        //{
+        //    return "tejeswar.vaddi@infor.com";
+        //}
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
             Console.WriteLine("This is ActionFilter after Executing....");
         }
+
+        
     }
 }
 
