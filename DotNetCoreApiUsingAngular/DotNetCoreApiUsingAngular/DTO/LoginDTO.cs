@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace DotNetCoreApiUsingAngular.DTO
@@ -13,5 +14,6 @@ namespace DotNetCoreApiUsingAngular.DTO
 
         [Required]
         public string Password { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DotNetCoreApiUsingAngular.BaseApiController;
 using DotNetCoreApiUsingAngular.Data;
 using DotNetCoreApiUsingAngular.DTO;
+using DotNetCoreApiUsingAngular.Interfaces;
 using DotNetCoreApiUsingAngular.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,12 @@ namespace DotNetCoreApiUsingAngular.Controllers
     public class AccountController : ApiBaseController
     {
         private readonly DataContext _dataContext;
-        public AccountController(DataContext dataContext)
+        private readonly ITokenService tokenService;
+
+        public AccountController(DataContext dataContext , ITokenService tokenService)
         {
             this._dataContext = dataContext;
+            this.tokenService = tokenService;
         }
 
         [HttpPost("Register")]
@@ -37,8 +41,21 @@ namespace DotNetCoreApiUsingAngular.Controllers
             };
             this._dataContext.Users.Add(user);
             this._dataContext.SaveChanges();
-            return Ok(user);
+           return Ok(
+               new UserDTO()
+               {
+                   UserName = registerDTO.UserName,
+                   Token = this.tokenService.CreateToken(user)
+               }
+               );
         }
+
+        private bool UserCheck(string userName)
+        {
+            var Exists = this._dataContext.Users.Any(options => options.UserName == userName.ToLower());
+            return Exists;
+        }
+    
 
         [HttpPost("Login")]
         public IActionResult UserLogin([FromBody] LoginDTO loginDTO)
@@ -54,12 +71,6 @@ namespace DotNetCoreApiUsingAngular.Controllers
                 if (decoading[i] != isExists.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
             return Ok(isExists);
-        }
-
-        private bool UserCheck(string userName)
-        {
-            var Exists = this._dataContext.Users.Any(options => options.UserName == userName.ToLower());
-            return Exists;
         }
     }
 }

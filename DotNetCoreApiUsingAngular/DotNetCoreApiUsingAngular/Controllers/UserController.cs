@@ -1,6 +1,7 @@
 ﻿using DotNetCoreApiUsingAngular.BaseApiController;
 using DotNetCoreApiUsingAngular.Data;
 using DotNetCoreApiUsingAngular.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +22,7 @@ namespace DotNetCoreApiUsingAngular.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<AppUser>>> Get()
         {
             return await this._dataContext.Users.ToListAsync();
@@ -28,6 +30,7 @@ namespace DotNetCoreApiUsingAngular.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public  async Task<ActionResult<AppUser>> Get(int id)
         {
             return await _dataContext.Users.FindAsync(id);
