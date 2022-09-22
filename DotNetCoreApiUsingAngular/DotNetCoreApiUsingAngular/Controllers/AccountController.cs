@@ -65,7 +65,7 @@ namespace DotNetCoreApiUsingAngular.Controllers
                 );
             if (isExists == null) return Unauthorized("UserName not found");
             using var hmac = new HMACSHA512(isExists.PasswordSalt);
-            var decoading = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.UserName));
+            var decoading = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.UserName.ToLower()));
             for (int i = 0; i < decoading.Length; i++)
             {
                 if (decoading[i] != isExists.PasswordHash[i]) return Unauthorized("Invalid Password");

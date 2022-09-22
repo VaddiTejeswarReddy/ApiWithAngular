@@ -2,6 +2,6 @@
 {
     public static class ApplicationServiceExtensions
     {
-        public static 
+        //public static 
     }
 }
